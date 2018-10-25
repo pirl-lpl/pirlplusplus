@@ -1,0 +1,49 @@
+#	Setup the development environment for this sandbox.
+#
+#	N.B.: This script must be sourced.
+
+#	Directories are listed in the reverse order
+#	that they will appear in the environment variable.
+set lib_dirs = \
+	( \
+	/opt/local/PIRL/src/PIRL++ \
+	)
+
+echo "lib paths:"
+foreach d ($lib_dirs)
+	if (! -d $d) then
+		set missing
+		echo "\!\!\! Missing: $d"
+	else
+		echo "    $d"
+	endif
+	if (! $?missing) then
+		if ($?lib_paths) then
+			set lib_paths = ${d}:$lib_paths
+		else
+			set lib_paths = ${d}
+		endif
+	endif
+end
+
+if ($?missing) then
+	echo "\!\!\! Environment unchanged \!\!\!"
+	goto setup_done
+endif
+
+if ($?DARWIN) then
+	if ($?DYLD_LIBRARY_PATH) set lib_paths = ${lib_paths}:$DYLD_LIBRARY_PATH
+	setenv DYLD_LIBRARY_PATH `collapse_word_list -d: $lib_paths`
+else
+	if ($?LD_LIBRARY_PATH) set lib_paths = ${lib_paths}:$LD_LIBRARY_PATH
+	setenv LD_LIBRARY_PATH `collapse_word_list -d: $lib_paths`
+endif
+
+echo ">>> Ready <<<"
+
+setup_done:
+unset d
+unset missing
+unset lib_dirs
+unset lib_paths
+

@@ -1,0 +1,65 @@
+PIRL++
+
+The PIRL++ library contains C++ classes designed to enable capabilities
+used in support of a wide range of applicaitons. These classes were
+developed at the Planetary Image Research Laborary, Department of
+Planetary Science, University of Arizona, Tucson, Arizona.
+
+
+Binary_IO:
+
+The Binary_IO class provides input and output of binary data values. The
+data may optionally be reversed to handle byte ordering differences
+between the host system that writes the binary data and the host system
+that reads it.
+
+Cache:
+
+The Cache provides a dynamic input storage area that can be bound to an
+input stream which will be used for automatic data refills to get user
+data as needed. User data may also be put into the Cache which will
+inflate as needed. In addition to the conventional managed buffer
+operation, a Cache may have a data margin that specifies the minimum
+amount of data to be retained when the user space is drained. This
+mechanism is employed when a function is supplied to test for a logical
+end-of-data condition in the input stream.
+
+Data_Block:
+
+A Data_Block manages access to a block of binary data bytes with a user
+defined data structure. The data may be in non-native order, in which
+case data transfers between the data block and application variables
+will reverse the byte order. The memory holding the binary block of data
+is managed by the user, not the Data_Block. The same block of data may
+be shared by more than one Data_Block object to provide different
+"views" of the data structure. The Data_Block is not a substitute for a
+struct; it offers special capabilities: byte order independence, byte
+alignment independence, dynamic structure definition, multiple data
+views, and data memory independence.
+
+endian:
+
+A set of functions, and function templates, for testing and manipulating
+data byte ordering.
+
+Files:
+
+A set of convenience functions for testing and manipulating file
+pathnames. Access to the current working directory, user's home
+directory, username and host system name are also provided.
+
+Dimensions:
+
+Lightweight classes for managing common dimension objects including points,
+sizes, rectangles and cubes.
+
+Reference_Counted_Pointer
+
+Associates a pointer with a reference counter for shared use of pointer
+referenced objects on the heap. Multiple Reference_Counted_Pointers using the
+same reference can be destroyed with the referenced object only being deleted
+when all shared references to the object have been destroyed.
+
+
+$Revision: 1.6 $
+$Date: 2009/10/27 00:12:42 $
