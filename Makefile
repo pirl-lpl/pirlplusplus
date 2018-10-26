@@ -136,9 +136,7 @@ ifeq ($(strip $(OS)),Darwin)
 ifneq ($(MACHINE),Power_Macintosh)
 #	For kernel version 10 with PowerPC support.
 ifeq ($(firstword $(KERNEL_RELEASE)),15)
-#	To provide lowest-common-denominator fat Mac builds
-#	compatible with the Qt configuration the gcc v4.0.x compiler is used.
-COMPILER				?=	g++-8
+COMPILER				?=	clang++
 else
 COMPILER          ?= g++
 #CPPFLAGS				+= -stdlib=libstdc++
