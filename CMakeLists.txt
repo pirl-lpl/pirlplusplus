@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.11)
 
 project(PIRL++ VERSION 3.0.0 LANGUAGES CXX) # DESCRIPTION "A Legacy C++ Support Library")
 
@@ -15,12 +15,12 @@ set(LibSrc
 add_library(ObjectLib OBJECT ${LibSrc})
 
 if(WIN32)
-   # TODO this should use the project name
    set(CMAKE_CXX_FLAGS "/LD /EHsc /Fe${PROJECT_NAME}.dll")
 
    # TODO figure out why I need to set this
    link_directories("C:\\Program Files (x86)\\Windows Kits\\10\\Lib\\10.0.17763.0\\um\\x64\\")
 else()
+   # TODO set this properly (see below)
    set(CMAKE_CXX_FLAGS "-fPIC")
 endif()
 
@@ -44,7 +44,7 @@ if(WIN32)
    set_target_properties(${SharedLib} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
    set_target_properties(${StaticLib} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
 else()
-   set_property(TARGET ${ObjectLib} PROPERTY POSITION_INDEPENDENT_CODE 1)
+   set_property(TARGET ${ObjectLib} PROPERTY POSITION_INDEPENDENT_CODE ON)
    set_target_properties(${StaticLib} PROPERTIES OUTPUT_NAME ${SharedLib})
 endif()
 
