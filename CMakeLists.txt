@@ -60,3 +60,6 @@ install(TARGETS ${SharedLib} DESTINATION ${PROJECT_NAME}/lib)
 install(TARGETS ${StaticLib} DESTINATION ${PROJECT_NAME}/lib)
 
 install(FILES ${Headers} DESTINATION ${PROJECT_NAME}/include)
+
+export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_NAME}-targets.cmake)
+export(PACKAGE PIRL)
