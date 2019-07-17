@@ -7,4 +7,5 @@ CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
 libPIRL++.*
-PIRL++-targets.cmake
+PIRL-config.cmake
+PIRL-config-version.cmake

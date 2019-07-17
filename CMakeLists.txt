@@ -11,14 +11,6 @@ set(LibSrc
         "Files.cc"
 )
 
-set(Headers
-        "Binary_IO.hh"
-        "Cache.hh"
-        "Data_Block.hh"
-        "Dimensions.hh"
-        "endian.hh"
-        "Files.hh"
-)
 # this is the "object library" OBJECT ObjectLib target: compiles the sources only once
 add_library(ObjectLib OBJECT ${LibSrc})
 
@@ -56,10 +48,12 @@ else()
    set_target_properties(${StaticLib} PROPERTIES OUTPUT_NAME ${SharedLib})
 endif()
 
-install(TARGETS ${SharedLib} DESTINATION ${PROJECT_NAME}/lib)
-install(TARGETS ${StaticLib} DESTINATION ${PROJECT_NAME}/lib)
+set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
-install(FILES ${Headers} DESTINATION ${PROJECT_NAME}/include)
+include(CMakePackageConfigHelpers)
+write_basic_package_version_file(PIRL-config-version.cmake VERSION ${PACKAGE_VERSION}
+   COMPATIBILITY SameMajorVersion
+)
 
-export(TARGETS ${PROJECT_NAME} FILE ${PROJECT_NAME}-targets.cmake)
+export(TARGETS ${PROJECT_NAME} NAMESPACE PIRL:: FILE PIRL-config.cmake)
 export(PACKAGE PIRL)
