@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
-project(PIRL++ VERSION 3.0.0 LANGUAGES CXX) # DESCRIPTION "A Legacy C++ Support Library")
+project(PIRL++ VERSION 3.0.0 LANGUAGES CXX DESCRIPTION "A Legacy C++ Support Library")
 
 set(LibSrc
         "Binary_IO.cc"
