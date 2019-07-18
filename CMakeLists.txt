@@ -48,6 +48,9 @@ else()
    set_target_properties(${StaticLib} PROPERTIES OUTPUT_NAME ${SharedLib})
 endif()
 
+# allows dependent projects to use our headers
+# by direct include from this directory
+# TODO should this be a target property rather than a project global?
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
 include(CMakePackageConfigHelpers)
