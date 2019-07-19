@@ -58,5 +58,6 @@ write_basic_package_version_file(PIRL-config-version.cmake VERSION ${PACKAGE_VER
    COMPATIBILITY SameMajorVersion
 )
 
+set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 export(TARGETS ${PROJECT_NAME} NAMESPACE PIRL:: FILE PIRL-config.cmake)
 export(PACKAGE PIRL)
