@@ -54,10 +54,10 @@ endif()
 set(CMAKE_INCLUDE_CURRENT_DIR_IN_INTERFACE ON)
 
 include(CMakePackageConfigHelpers)
-write_basic_package_version_file(PIRL-config-version.cmake VERSION ${PACKAGE_VERSION}
+write_basic_package_version_file(pirl-config-version.cmake VERSION ${PACKAGE_VERSION}
    COMPATIBILITY SameMajorVersion
 )
 
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
-export(TARGETS ${PROJECT_NAME} NAMESPACE PIRL:: FILE PIRL-config.cmake)
+export(TARGETS ${PROJECT_NAME} NAMESPACE PIRL:: FILE pirl-config.cmake)
 export(PACKAGE PIRL)
