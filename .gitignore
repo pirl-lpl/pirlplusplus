@@ -3,6 +3,9 @@
 ################################################################################
 Makefile
 /.vs
+/out
+/tests
+/.cmake/
 CMakeFiles/
 CMakeCache.txt
 cmake_install.cmake
