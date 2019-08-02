@@ -2,7 +2,6 @@ cmake_minimum_required(VERSION 3.11)
 
 project(PIRL++ VERSION 3.0.0 DESCRIPTION "A Legacy C++ Support Library")
 
-# this is the "object library" OBJECT ObjectLib target: compiles the sources only once
 add_library(${PROJECT_NAME} SHARED
         "Binary_IO.cc"
         "Cache.cc"
