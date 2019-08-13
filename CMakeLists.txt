@@ -37,6 +37,9 @@ if(WIN32)
 	else()
 		set(CMAKE_SHARED_LINKER_FLAGS "/MANIFEST:NO")
 	endif()
+
+	#add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
+
 endif()
 
 include(CMakePackageConfigHelpers)
@@ -48,6 +51,9 @@ set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
 export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "PIRL-config.cmake")
 export(PACKAGE PIRL)
 
+#
+# TODO install version file, config file and exported targets file
+#
 include(GNUInstallDirs)
 install(TARGETS ${shared_lib} ${static_lib}
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
