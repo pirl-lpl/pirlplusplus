@@ -62,7 +62,7 @@ export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "PIRL-config.cm
 export(PACKAGE PIRL)
 
 #
-# TODO install version file, config file and exported targets file
+# TODO install version file
 #
 include(GNUInstallDirs)
 install(TARGETS ${shared_lib} ${static_lib} EXPORT PIRL-config
