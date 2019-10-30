@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.11)
+cmake_minimum_required(VERSION 3.12)
 
 project(PIRL++ VERSION 3.0.0 DESCRIPTION "A Legacy C++ Support Library")
 
@@ -32,7 +32,7 @@ set(shared_lib "${PROJECT_NAME}")
 add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
 add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
 
-#target_include_directories(${shared_lib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
 
 set_target_properties(${shared_lib} PROPERTIES PUBLIC_HEADER "${headers}")
 
@@ -72,4 +72,4 @@ install(TARGETS ${shared_lib} ${static_lib} EXPORT PIRL-config
 	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCDIR}
 )
 
-install(EXPORT PIRL-config DESTINATION share/PIRL/cmake)
+install(EXPORT PIRL-config NAMESPACE PIRL:: DESTINATION ${CMAKE_INSTALL_DATADIR}/PIRL/cmake)
