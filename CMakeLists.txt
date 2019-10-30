@@ -10,6 +10,14 @@ add_library(obj_lib OBJECT
         "endian.cc"
         "Files.cc")
 
+set(headers
+        "Binary_IO.hh"
+        "Cache.hh"
+        "Data_Block.hh"
+        "Dimensions.hh"
+        "endian.hh"
+        "Files.hh")
+
 set_target_properties(obj_lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 if(WIN32)
@@ -24,7 +32,9 @@ set(shared_lib "${PROJECT_NAME}")
 add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
 add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
 
-target_include_directories(${shared_lib} PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+#target_include_directories(${shared_lib} PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}>)
+
+set_target_properties(${shared_lib} PROPERTIES PUBLIC_HEADER "${headers}")
 
 if(WIN32)
   find_library(WS2_32_LIBRARY_PATH WS2_32)
@@ -38,7 +48,7 @@ if(WIN32)
 		set(CMAKE_SHARED_LINKER_FLAGS "/MANIFEST:NO")
 	endif()
 
-	#add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
+	add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
 
 endif()
 
@@ -55,9 +65,11 @@ export(PACKAGE PIRL)
 # TODO install version file, config file and exported targets file
 #
 include(GNUInstallDirs)
-install(TARGETS ${shared_lib} ${static_lib}
+install(TARGETS ${shared_lib} ${static_lib} EXPORT PIRL-config
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	INCLUDES DESTINATION ${CMAKE_INSTALL_INCDIR}
+	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCDIR}
 )
+
+install(EXPORT PIRL-config DESTINATION share/PIRL/cmake)
