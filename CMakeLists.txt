@@ -25,7 +25,7 @@ if(WIN32)
 	target_compile_options(obj_lib PRIVATE "/W4") # /WX for warnings as errors
 else()
     target_compile_options(obj_lib PRIVATE "-Wall")
-    set(static_lib ${PROJECT_NAME})
+    set(static_lib ${PROJECT_NAME}_static)
 endif()
 
 set(shared_lib "${PROJECT_NAME}")
