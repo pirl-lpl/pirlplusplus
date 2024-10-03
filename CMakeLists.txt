@@ -8,7 +8,8 @@ add_library(obj_lib OBJECT
         "Data_Block.cc"
         "Dimensions.cc"
         "endian.cc"
-        "Files.cc")
+        "Files.cc"
+)
 
 set(headers
         "Binary_IO.hh"
@@ -16,7 +17,9 @@ set(headers
         "Data_Block.hh"
         "Dimensions.hh"
         "endian.hh"
-        "Files.hh")
+        "Files.hh"
+        "Reference_Counted_Pointer.hh"
+)
 
 set_target_properties(obj_lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
