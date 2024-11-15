@@ -24,14 +24,14 @@ set(headers
 set_target_properties(obj_lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 if(WIN32)
-	set(static_lib "lib${PROJECT_NAME}")
 	target_compile_options(obj_lib PRIVATE "/W4") # /WX for warnings as errors
 else()
     target_compile_options(obj_lib PRIVATE "-Wall")
-    set(static_lib ${PROJECT_NAME}_static)
 endif()
 
 set(shared_lib "${PROJECT_NAME}")
+set(static_lib ${PROJECT_NAME}_static)
+
 add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
 add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
 
@@ -51,7 +51,7 @@ if(WIN32)
   set_target_properties(${shared_lib} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
   target_link_options(${shared_lib} PRIVATE "/MANIFEST:NO")
 
-  add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
+#  add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
 endif()
 
 include(CMakePackageConfigHelpers)
