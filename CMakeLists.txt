@@ -24,19 +24,19 @@ set(headers
 set_target_properties(obj_lib PROPERTIES POSITION_INDEPENDENT_CODE ON)
 
 if(WIN32)
-	target_compile_options(obj_lib PRIVATE "/W4") # /WX for warnings as errors
+    target_compile_options(obj_lib PRIVATE "/W4") # /WX for warnings as errors
 else()
     target_compile_options(obj_lib PRIVATE "-Wall")
 endif()
 
 set(shared_lib "${PROJECT_NAME}")
-set(static_lib ${PROJECT_NAME}_static)
+set(static_lib "${PROJECT_NAME}_static")
 
 add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
 add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
 
-target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
-target_include_directories(${static_lib} PUBLIC $<INSTALL_INTERFACE:include>)
+#target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
+#target_include_directories(${static_lib} PUBLIC $<INSTALL_INTERFACE:include>)
 
 set_target_properties(${shared_lib} PROPERTIES PUBLIC_HEADER "${headers}")
 set_target_properties(${shared_lib} PROPERTIES
@@ -44,14 +44,14 @@ set_target_properties(${shared_lib} PROPERTIES
                       SOVERSION ${PIRL++_VERSION_MAJOR})
 
 if(WIN32)
-  find_library(WS2_32_LIBRARY_PATH WS2_32)
-  find_library(USERENV_LIBRARY_PATH UserEnv)
+    find_library(WS2_32_LIBRARY_PATH WS2_32)
+    find_library(USERENV_LIBRARY_PATH UserEnv)
 
-  target_link_libraries(${shared_lib} ${WS2_32_LIBRARY_PATH} ${USERENV_LIBRARY_PATH})
-  set_target_properties(${shared_lib} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
-  target_link_options(${shared_lib} PRIVATE "/MANIFEST:NO")
+    target_link_libraries(${shared_lib} ${WS2_32_LIBRARY_PATH} ${USERENV_LIBRARY_PATH})
+    set_target_properties(${shared_lib} PROPERTIES WINDOWS_EXPORT_ALL_SYMBOLS ON)
+    target_link_options(${shared_lib} PRIVATE "/MANIFEST:NO")
 
-#  add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
+    #  add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
 endif()
 
 include(CMakePackageConfigHelpers)
@@ -71,7 +71,7 @@ install(TARGETS ${shared_lib} ${static_lib} EXPORT PIRL-config
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
-	PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+ PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
 
 install(EXPORT PIRL-config NAMESPACE PIRL:: DESTINATION ${CMAKE_INSTALL_DATADIR}/PIRL/cmake)
