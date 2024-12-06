@@ -35,13 +35,13 @@ set(static_lib "${PROJECT_NAME}_static")
 add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
 add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
 
-#target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
-#target_include_directories(${static_lib} PUBLIC $<INSTALL_INTERFACE:include>)
-
 set_target_properties(${shared_lib} PROPERTIES PUBLIC_HEADER "${headers}")
 set_target_properties(${shared_lib} PROPERTIES
                       VERSION ${PIRL++_VERSION}
                       SOVERSION ${PIRL++_VERSION_MAJOR})
+
+target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
+target_include_directories(${static_lib} PUBLIC $<INSTALL_INTERFACE:include>)
 
 if(WIN32)
     find_library(WS2_32_LIBRARY_PATH WS2_32)
@@ -54,24 +54,30 @@ if(WIN32)
     #  add_custom_command(TARGET ${shared_lib} POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy "${static_lib}.lib" "${shared_lib}.lib")
 endif()
 
-include(CMakePackageConfigHelpers)
-write_basic_package_version_file("PIRL-config-version.cmake" VERSION ${PACKAGE_VERSION}
-   COMPATIBILITY SameMajorVersion
-)
-
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
-export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "PIRL-config.cmake")
+export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "${PROJECT_NAME}-exports.cmake")
 export(PACKAGE PIRL)
 
-#
-# TODO install version file
-#
 include(GNUInstallDirs)
-install(TARGETS ${shared_lib} ${static_lib} EXPORT PIRL-config
+include(CMakePackageConfigHelpers)
+
+write_basic_package_version_file("${PROJECT_NAME}-config-version.cmake" VERSION ${PROJECT_VERSION}
+   COMPATIBILITY SameMajorVersion)
+
+configure_package_config_file("${CMAKE_CURRENT_SOURCE_DIR}/Config.cmake.in"
+  "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+  INSTALL_DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake")
+
+install(TARGETS ${shared_lib} ${static_lib} EXPORT ${PROJECT_NAME}-export
     RUNTIME DESTINATION ${CMAKE_INSTALL_BINDIR}
     LIBRARY DESTINATION ${CMAKE_INSTALL_LIBDIR}
     ARCHIVE DESTINATION ${CMAKE_INSTALL_LIBDIR}
- PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
+    PUBLIC_HEADER DESTINATION ${CMAKE_INSTALL_INCLUDEDIR}
 )
+install(EXPORT ${PROJECT_NAME}-export FILE "${PROJECT_NAME}-exports.cmake"
+        NAMESPACE ${PROJECT_NAME}:: DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake")
 
-install(EXPORT PIRL-config NAMESPACE PIRL:: DESTINATION ${CMAKE_INSTALL_DATADIR}/PIRL/cmake)
+# install config files
+install(FILES "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config-version.cmake"
+              "${CMAKE_CURRENT_BINARY_DIR}/${PROJECT_NAME}-config.cmake"
+        DESTINATION "${CMAKE_INSTALL_DATADIR}/${PROJECT_NAME}/cmake")
