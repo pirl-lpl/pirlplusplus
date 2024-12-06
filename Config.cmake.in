@@ -1,5 +1,5 @@
 @PACKAGE_INIT@
 
-include("${CMAKE_CURRENT_LIST_DIR}/PIRL-exports.cmake")
+include("${CMAKE_CURRENT_LIST_DIR}/PIRL++-exports.cmake")
 
 check_required_components(shared_lib static_lib)
