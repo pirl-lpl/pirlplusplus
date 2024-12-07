@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.13)
 
-project(PIRL++ VERSION 3.0.0 DESCRIPTION "A Legacy C++ Support Library")
+project(PIRL VERSION 3.0.0 DESCRIPTION "A Legacy C++ Support Library")
 
 add_library(obj_lib OBJECT
         "Binary_IO.cc"
@@ -29,16 +29,16 @@ else()
     target_compile_options(obj_lib PRIVATE "-Wall")
 endif()
 
-set(shared_lib "${PROJECT_NAME}")
-set(static_lib "${PROJECT_NAME}_static")
+set(shared_lib "${PROJECT_NAME}++")
+set(static_lib "${PROJECT_NAME}++_static")
 
 add_library(${shared_lib} SHARED $<TARGET_OBJECTS:obj_lib>)
 add_library(${static_lib} STATIC $<TARGET_OBJECTS:obj_lib>)
 
 set_target_properties(${shared_lib} PROPERTIES PUBLIC_HEADER "${headers}")
 set_target_properties(${shared_lib} PROPERTIES
-                      VERSION ${PIRL++_VERSION}
-                      SOVERSION ${PIRL++_VERSION_MAJOR})
+                      VERSION ${PROJECT_VERSION}
+                      SOVERSION ${PROJECT_VERSION_MAJOR})
 
 target_include_directories(${shared_lib} PUBLIC $<INSTALL_INTERFACE:include>)
 target_include_directories(${static_lib} PUBLIC $<INSTALL_INTERFACE:include>)
@@ -55,8 +55,8 @@ if(WIN32)
 endif()
 
 set(CMAKE_EXPORT_PACKAGE_REGISTRY ON)
-export(TARGETS ${shared_lib} ${static_lib} NAMESPACE PIRL:: FILE "${PROJECT_NAME}-exports.cmake")
-export(PACKAGE PIRL)
+export(TARGETS ${shared_lib} ${static_lib} NAMESPACE ${PROJECT_NAME}:: FILE "${PROJECT_NAME}-exports.cmake")
+export(PACKAGE ${PROJECT_NAME})
 
 include(GNUInstallDirs)
 include(CMakePackageConfigHelpers)
